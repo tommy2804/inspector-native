@@ -8,14 +8,16 @@ import { setDestination } from '../slices/navSlice';
 import { useNavigation } from '@react-navigation/native';
 import NavFavorites from './NavFavorites';
 import { Icon } from 'react-native-elements';
+import { useStorageData } from '../hooks/fetchAsyncStorage';
 
 const NavigateCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const user = useStorageData();
 
   return (
     <SafeAreaView style={tw`bg-white flex-1 `}>
-      <Text style={tw`text-center py-5 text-xl`}>Good Morning, Tommy {/*userName*/}</Text>
+      <Text style={tw`text-center py-5 text-xl`}>Good Morning, {user?.fullName}</Text>
       <View style={tw`border-t border-gray-200 flex-shrink`}>
         <View style={{ flex: 0 }}>
           <GooglePlacesAutocomplete
@@ -35,9 +37,15 @@ const NavigateCard = () => {
               console.log(details);
               dispatch(
                 setDestination({
-                  location: details.geometry?.location,
-                  place_id: details.place_id,
-                  fullAddress: details.formatted_address,
+                  latitude: details?.geometry?.location?.lat,
+                  longitude: details?.geometry?.location?.lng,
+                  Address: {
+                    street:
+                      details.address_components[1].long_name +
+                      details.address_components[0].long_name,
+                    city: details.address_components[2].long_name,
+                    country: details.address_components[3].short_name,
+                  },
                 })
               );
               console.log(details.formatted_address, details.place_id, details.geometry?.location);

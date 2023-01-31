@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   SafeAreaView,
   Image,
   StyleSheet,
@@ -12,14 +11,36 @@ import CustomInput from '../../components/auth/CustomInput';
 import CustomButton from '../../components/auth/CustomButton';
 import React, { useState } from 'react';
 import tw from 'tailwind-react-native-classnames';
+import { useNavigation } from '@react-navigation/native';
+import { login, register } from '../../api';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { useStorageData } from '../../hooks/fetchAsyncStorage';
 
 const SignInScreen = () => {
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { height } = useWindowDimensions();
+  const navigation = useNavigation();
+  const { setItem, removeItem } = useAsyncStorage('User');
 
-  const onSignInPress = () => {
-    console.warn('signIn');
+  const writeItemToStorage = async (newValue) => {
+    await setItem(newValue);
+  };
+
+  const onSignInPress = async () => {
+    console.log(email, password);
+    const res = await login({ email, password });
+
+    if (res.status === 201) {
+      try {
+        const jsonValue = JSON.stringify(res.data);
+        writeItemToStorage(jsonValue);
+        navigation.navigate('HomeScreen');
+      } catch (e) {
+        console.error('not stored');
+        // saving error
+      }
+    }
   };
   const OnForgotPasswordPress = () => {
     console.warn('forgotPassword');
@@ -36,14 +57,15 @@ const SignInScreen = () => {
     console.warn('signInGoogle');
   };
   const onSignUp = () => {
+    // const res = register({ email, password });
     console.warn('signUp');
   };
 
   return (
     <ScrollView>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={(styles.container, { height, alignItems: 'center' })}>
         <Image style={[styles.logo, { height: height * 0.3 }]} source={Logo} resizeMode="contain" />
-        <CustomInput value={userName} setValue={setUserName} placeholder="userName" />
+        <CustomInput value={email} setValue={setEmail} placeholder="Email" />
         <CustomInput
           secureTextEntry={true}
           value={password}
@@ -87,7 +109,6 @@ const SignInScreen = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     padding: 20,
     backgroundColor: '#F9FBFC',
   },

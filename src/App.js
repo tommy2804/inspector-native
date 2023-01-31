@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapScreen from './screens/MapScreen';
-import SignInScreen from './screens/signin';
+import SignInScreen from './screens/signup/SignInScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -19,13 +19,13 @@ export default function App() {
             style={{ flex: 1 }}
             keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}>
             <Stack.Navigator>
-              <Stack.Screen
+              {/* <Stack.Screen
                 name="SignIn"
                 component={SignInScreen}
                 options={{
                   headerShown: false,
                 }}
-              />
+              /> */}
 
               <Stack.Screen
                 name="HomeScreen"

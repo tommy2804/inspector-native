@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  origin: null,
-  destination: null,
+  origin: {
+    latitude: '',
+    longitude: '',
+    Address: {},
+  },
+  destination: { latitude: '', longitude: '', Address: {} },
   travelTimeInformation: null,
 };
 
@@ -11,10 +15,18 @@ export const navSlice = createSlice({
   initialState,
   reducers: {
     setOrigin: (state, action) => {
-      state.origin = action.payload;
+      state.origin = {
+        latitude: action.payload.latitude,
+        longitude: action.payload.longitude,
+        Address: action.payload.Address,
+      };
     },
     setDestination: (state, action) => {
-      state.destination = action.payload;
+      state.destination = {
+        latitude: action.payload.latitude,
+        longitude: action.payload.longitude,
+        Address: action.payload.Address,
+      };
     },
     setTravelTimeInformation: (state, action) => {
       state.travelTimeInformation = action.payload;

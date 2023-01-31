@@ -8,7 +8,7 @@ const CustomButton = ({ onPress, text, type = 'PRIMARY', bgColor, txColor }) => 
       style={[
         styles.container,
         styles[`container_${type}`],
-        bgColor ? { backgroundColor: bgColor, width: '10vh', padding: 15, marginLeft: 5 } : {},
+        bgColor ? { backgroundColor: bgColor, width: 175, padding: 15, marginLeft: 5 } : {},
       ]}>
       <Text style={([styles.text, `text_${type}`], txColor ? { color: txColor } : {})}>{text}</Text>
     </Pressable>

@@ -6,30 +6,18 @@ import tw from 'tailwind-react-native-classnames';
 import { selectDestination, selectOrigin } from '../slices/navSlice';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_MAPS_APIKEY } from '@env';
+import { useCurrentLocation } from '../hooks/useCurrentLocation';
 
 const Map = () => {
-  const origin = useSelector(selectOrigin);
+  const origin = useCurrentLocation();
+  // console.log(origin);
   const destination = useSelector(selectDestination);
+  console.log(destination);
+
   const mapRef = useRef(null);
   // console.log(destination, origin);
 
   // in the useEffect try to zoom out when to fit both the origin and the detination in the same screen
-
-  useEffect(() => {
-    if (!!destination && origin) return;
-
-    const getTravelTime = async () => {
-      fetch(
-        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin.fullAddress}&destinations=${destination.fullAddress}&units=imperial&key=${GOOGLE_MAPS_APIKEY}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
-    };
-    getTravelTime();
-  }, [origin, destination, GOOGLE_MAPS_APIKEY]);
-
   const centerMap = useCallback(() => {
     if (destination && origin) {
       mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
@@ -52,42 +40,42 @@ const Map = () => {
       style={tw`flex-1 `}
       mapType="standard"
       initialRegion={{
-        latitude: origin?.location?.lat,
-        longitude: origin?.location?.lng,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitude: origin?.latitude,
+        longitude: origin?.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       }}>
       {origin && destination && (
         <MapViewDirections
-          origin={{ latitude: origin?.location.lat, longitude: origin?.location.lng }}
+          origin={{ latitude: origin?.latitude, longitude: origin?.longitude }}
           destination={{
-            latitude: destination?.location.lat,
-            longitude: destination?.location.lng,
+            latitude: destination?.latitude,
+            longitude: destination?.longitude,
           }}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor="black"
         />
       )}
-      {origin?.location && (
+      {origin.longitude && (
         <Marker
           coordinate={{
-            latitude: origin?.location?.lat,
-            longitude: origin?.location?.lng,
+            latitude: origin?.latitude,
+            longitude: origin?.longitude,
           }}
-          title="Origin"
-          description={origin?.description}
+          title="Your Location"
+          description={`${origin?.Address.city}, ${origin?.Address?.country}, ${origin?.Address?.street}`}
           identifier="origin"
         />
       )}
-      {destination?.location && (
+      {destination?.longitude && (
         <Marker
           coordinate={{
-            latitude: destination?.location?.lat,
-            longitude: destination?.location?.lng,
+            latitude: destination?.latitude,
+            longitude: destination?.longitude,
           }}
-          title="Destination"
-          description={destination?.description}
+          title="Your destination"
+          description={`${destination?.Address.city}, ${destination?.Address?.country}, ${destination?.Address?.street}`}
           identifier="destination"
         />
       )}
