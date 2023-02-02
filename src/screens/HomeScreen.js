@@ -11,12 +11,12 @@ import NavOptions from '../components/NavOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_APIKEY } from '@env';
 import { useDispatch } from 'react-redux';
-import { setDestination, setOrigin } from '../slices/navSlice';
+import { setDestination, setOrigin } from '../state/slices/navSlice';
 import { useNavigation } from '@react-navigation/native';
 import NavFavorites from '../components/NavFavorites';
-import { Icon } from 'react-native-elements';
 import Logo from '../../assets/our-voice-logo.png';
 import { useCurrentLocation } from '../hooks/useCurrentLocation';
+import { Ionicons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -30,7 +30,7 @@ const HomeScreen = () => {
         <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={Logo} />
         <View style={tw`absolute top-3 right-5 z-50 p-3 rounded-full `}>
           <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Icon name="user" type="font-awesome" color="black" size={36} />
+            <Ionicons name="person-circle-outline" size={40} color="black" />
           </TouchableOpacity>
         </View>
       </View>

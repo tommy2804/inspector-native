@@ -3,7 +3,7 @@ import { Icon } from 'react-native-elements';
 import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { selectOrigin } from '../slices/navSlice';
+import { selectOrigin } from '../state/slices/navSlice';
 import Paper from '../../assets/paper.jpeg';
 import direction from '../../assets/directionLogo.jpeg';
 
@@ -18,7 +18,7 @@ const data = [
     id: '456',
     title: 'All Requests',
     url: Paper,
-    screen: 'EatsScreen',
+    screen: 'RequstsScreen',
   },
 ];
 const NavOptions = () => {

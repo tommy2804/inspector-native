@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setOrigin } from '../slices/navSlice';
+import { setOrigin } from '../state/slices/navSlice';
 
 export const useCurrentLocation = () => {
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ export const useCurrentLocation = () => {
         latitude: coords?.latitude,
         longitude: coords?.longitude,
       });
+      // console.log(fullAddress);
 
       setLocation({
         latitude: coords?.latitude,

@@ -4,7 +4,7 @@ import tw from 'tailwind-react-native-classnames';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_APIKEY } from '@env';
 import { useDispatch } from 'react-redux';
-import { setDestination } from '../slices/navSlice';
+import { setDestination } from '../state/slices/navSlice';
 import { useNavigation } from '@react-navigation/native';
 import NavFavorites from './NavFavorites';
 import { Icon } from 'react-native-elements';
@@ -34,17 +34,16 @@ const NavigateCard = () => {
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
             onPress={(data, details = null) => {
-              console.log(details);
               dispatch(
                 setDestination({
                   latitude: details?.geometry?.location?.lat,
                   longitude: details?.geometry?.location?.lng,
                   Address: {
                     street:
-                      details.address_components[1].long_name +
-                      details.address_components[0].long_name,
-                    city: details.address_components[2].long_name,
-                    country: details.address_components[3].short_name,
+                      details?.address_components[1]?.long_name +
+                      details?.address_components[0]?.long_name,
+                    city: details?.address_components[2]?.long_name,
+                    country: details?.address_components[3]?.long_name,
                   },
                 })
               );
