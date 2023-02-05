@@ -47,10 +47,10 @@ const OptionsCard = () => {
   const [selected, setSelected] = useState(null);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { height } = Dimensions.get('window');
+  const { height, width } = Dimensions.get('window');
 
   return (
-    <ScrollView style={{ flex: 1, height: height * 1.2 }}>
+    <ScrollView style={{ flex: 1, height: height * 1.2, width }}>
       <SafeAreaView style={tw`bg-white flex-grow`}>
         <View>
           <TouchableOpacity

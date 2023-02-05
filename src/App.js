@@ -7,7 +7,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapScreen from './screens/MapScreen';
-import SignInScreen from './screens/signup/SignInScreen';
+import { Provider as PaperProvider } from 'react-native-paper';
+import ReportDetailScreen from './screens/reports/ReportDetailScreen';
+import { Navigation } from './navigaor';
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -15,39 +17,16 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <NavigationContainer>
+        <PaperProvider>
           <SafeAreaProvider>
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={{ flex: 1 }}
               keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}>
-              <Stack.Navigator>
-                {/* <Stack.Screen
-                name="SignIn"
-                component={SignInScreen}
-                options={{
-                  headerShown: false,
-                }}
-              /> */}
-
-                <Stack.Screen
-                  name="HomeScreen"
-                  component={HomeScreen}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="MapScreen"
-                  component={MapScreen}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-              </Stack.Navigator>
+              <Navigation />
             </KeyboardAvoidingView>
           </SafeAreaProvider>
-        </NavigationContainer>
+        </PaperProvider>
       </Provider>
     </QueryClientProvider>
   );

@@ -18,7 +18,7 @@ const data = [
     id: '456',
     title: 'All Requests',
     url: Paper,
-    screen: 'RequstsScreen',
+    screen: 'ReportsScreen',
   },
 ];
 const NavOptions = () => {

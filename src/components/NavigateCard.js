@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_APIKEY } from '@env';
 import { useDispatch } from 'react-redux';
 import { setDestination } from '../state/slices/navSlice';
@@ -9,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import NavFavorites from './NavFavorites';
 import { Icon } from 'react-native-elements';
 import { useStorageData } from '../hooks/fetchAsyncStorage';
+import { Button } from 'react-native-paper';
 
 const NavigateCard = () => {
   const dispatch = useDispatch();
@@ -16,57 +16,27 @@ const NavigateCard = () => {
   const user = useStorageData();
 
   return (
-    <SafeAreaView style={tw`bg-white flex-1 `}>
-      <Text style={tw`text-center py-5 text-xl`}>Good Morning, {user?.fullName}</Text>
-      <View style={tw`border-t border-gray-200 flex-shrink`}>
-        <View style={{ flex: 0 }}>
-          <GooglePlacesAutocomplete
-            placeholder="Where to? "
-            styles={toInputBoxStyles}
-            fetchDetails={true}
-            enablePoweredByContainer={false}
-            returnKeyType={'search'}
-            minLength={2}
-            query={{
-              key: GOOGLE_MAPS_APIKEY,
-              language: 'en',
-            }}
-            nearbyPlacesAPI="GooglePlacesSearch"
-            debounce={400}
-            onPress={(data, details = null) => {
-              dispatch(
-                setDestination({
-                  latitude: details?.geometry?.location?.lat,
-                  longitude: details?.geometry?.location?.lng,
-                  Address: {
-                    street:
-                      details?.address_components[1]?.long_name +
-                      details?.address_components[0]?.long_name,
-                    city: details?.address_components[2]?.long_name,
-                    country: details?.address_components[3]?.long_name,
-                  },
-                })
-              );
-              console.log(details.formatted_address, details.place_id, details.geometry?.location);
-              navigation.navigate('OptionsCard');
-            }}
-          />
+    <SafeAreaView style={tw`bg-white flex-1`}>
+      <View style={tw` border-gray-200 flex-shrink `}>
+        <View style={{ flexDirection: 'row', display: 'flex' }}>
+          <Button
+            onPress={() => navigation.navigate('HomeScreen')}
+            icon="reply-all"
+            style={tw`flex flex-row bg-gray-400 w-28 px-2 py-1 rounded-full `}
+            color="black"
+            mode="contained">
+            back
+          </Button>
+          <Button
+            icon="camera"
+            style={tw`flex flex-row bg-gray-400 w-28 px-2 py-1 rounded-full `}
+            color="black"
+            mode="contained"
+            onPress={() => navigation.navigate('OptionsCard')}>
+            Forwards
+          </Button>
         </View>
-        <NavFavorites />
-      </View>
-      <View style={tw`flex-row bg-white justify-evenly py-2 mt-auto border-t border-gray-100 `}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('HomeScreen')}
-          style={tw`flex flex-row bg-black w-24 px-4 py-3 rounded-full justify-between`}>
-          <Icon name="reply-all" type="font-awesome" color="white" size={16} />
-          <Text style={tw`text-white text-center`}>Back</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('OptionsCard')}
-          style={tw`flex flex-row bg-black w-28 px-4 py-3 rounded-full justify-between`}>
-          <Icon name="caret-down" type="font-awesome" color="white" size={16} />
-          <Text style={tw`text-white text-center`}>Requsets</Text>
-        </TouchableOpacity>
+        <NavFavorites size={'70%'} />
       </View>
     </SafeAreaView>
   );
@@ -76,11 +46,8 @@ export default NavigateCard;
 
 const toInputBoxStyles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    paddingTop: 20,
-
+    paddingTop: 5,
     flex: 0,
-
     overflow: 'scroll',
   },
   textInput: {

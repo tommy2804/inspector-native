@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export const reportSlice = createSlice({
-  name: 'reportim',
+  name: 'report',
   initialState,
   reducers: {
     addReports: (state, action) => {
@@ -40,7 +40,7 @@ export const reportSlice = createSlice({
 });
 
 export const { addReports, setReport, updateReport } = reportSlice.actions;
-export const selectReports = (state) => state.reportim.reports;
-export const selectReport = (state) => state.reportim.report;
+export const selectReports = (state) => state.report.reports;
+export const selectReport = (state) => state.report.report;
 
 export default reportSlice.reducer;

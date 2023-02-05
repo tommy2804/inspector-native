@@ -17,6 +17,7 @@ import NavFavorites from '../components/NavFavorites';
 import Logo from '../../assets/our-voice-logo.png';
 import { useCurrentLocation } from '../hooks/useCurrentLocation';
 import { Ionicons } from '@expo/vector-icons';
+import { CustomButtonSheet } from '../components/buttonSheet';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -74,17 +75,22 @@ const HomeScreen = () => {
           }}
         />
       )}
-
       <NavOptions />
-      <NavFavorites />
+
+      <CustomButtonSheet>
+        <NavFavorites />
+      </CustomButtonSheet>
     </SafeAreaView>
   );
 };
-
 export default HomeScreen;
 
 const styles = StyleSheet.create({
   Text: {
     fontSize: 20,
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
 });
