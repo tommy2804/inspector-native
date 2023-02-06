@@ -4,28 +4,16 @@ import { Ionicons } from '@expo/vector-icons';
 import MapScreen from '../screens/MapScreen';
 import ReportDetailScreen from '../screens/reports/ReportDetailScreen';
 import ReportScreen from '../screens/reports/reportsScreen';
-import SignInScreen from '../screens/signup/SignInScreen';
+import { LoginScreen } from '../screens/Account/SignInScreen';
+import { AccountScreen } from '../screens/Account/Account';
 import HomeScreen from '../screens/HomeScreen';
-
-const TAB_ICON = {
-  Restaurants: 'restaurant',
-  shield: 'shield',
-  Map: 'map',
-  Settings: 'settings',
-};
+import { AccountNavigator } from './AccountNavigator';
 
 const Tab = createBottomTabNavigator();
-const createScreenOptions = ({ route }) => {
-  const iconName = TAB_ICON[route.name];
-  return {
-    tabBarIcon: ({ size, color }) => <Ionicons name={iconName} size={size} color={color} />,
-  };
-};
 
 export const AppNavigator = () => (
   <Tab.Navigator
     initialRouteName="Feed"
-    screenOptions={createScreenOptions}
     tabBarOptions={{
       activeTintColor: colors.brand.primary,
       inactiveTintColor: colors.brand.muted,
@@ -56,7 +44,7 @@ export const AppNavigator = () => (
         tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
       }}
       name="Settings"
-      component={SignInScreen}
+      component={AccountNavigator}
     />
   </Tab.Navigator>
 );

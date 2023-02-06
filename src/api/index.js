@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const API = axios.create({ baseURL: 'http://10.0.0.16:4001' });
+export const API = axios.create({ baseURL: 'http://172.20.10.8:4001' });
 
 API.interceptors.request.use(async (req) => {
   // before all the request so that we can send the token back to middlware so he can check the specific
