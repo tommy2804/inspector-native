@@ -1,89 +1,108 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
-import { List, Divider } from 'react-native-paper';
+import { ScrollView, TouchableOpacity, View, StyleSheet, Linking, Image } from 'react-native';
+import { List, Divider, Button, Text, TextInput } from 'react-native-paper';
 import { SafeArea } from '../../components/styles/safeArea';
 import { Spacer } from '../../components/styles/Text';
-import { OrderButton } from './components/stylesList';
 import { theme } from '../../theme';
 import { ReportsInfoCard } from './components/infoCard';
+import { Input } from 'react-native-elements';
+import { Icon, MapIcon } from './components/reportsStyle';
 
 const ReportDetailScreen = ({ route }) => {
-  const [breakfastExpanded, setBreakfastExpanded] = useState(false);
-  const [lunchExpanded, setLunchExpanded] = useState(false);
-  const [dinnerExpanded, setDinnerExpanded] = useState(false);
-  const [drinksExpanded, setDrinksExpanded] = useState(false);
+  const { report } = route.params;
+  console.log(report);
 
-  //   const { report } = route.params;
+  const handleWaze = () => {
+    Linking.canOpenURL(
+      `https://waze.com/ul?q=TelAviv,${report.reqStreet}`
+      // `https://waze.com/ul?ll=${report?.loaction?.lat},${report?.loaction?.lng}&z=10&navigate=yes`
+    ).then((supported) => {
+      if (supported) {
+        return Linking.openURL(
+          // `https://waze.com/ul?ll=${report?.loaction?.lat},${report?.loaction?.lng}&z=10&navigate=yes`
+          `https://waze.com/ul?q=TelAviv,${report.reqStreet}`
+        );
+      } else {
+        return console.log("Don't know how to open URI: " + report.reqStreet);
+      }
+    });
+  };
+
+  const handleGoogle = () => {
+    Linking.canOpenURL(
+      `https://www.google.com/maps/dir/?api=1&destination=${report.reqStreet}`
+    ).then((supported) => {
+      if (supported) {
+        return Linking.openURL(
+          `https://www.google.com/maps/dir/?api=1&destination=${report.reqStreet}`
+        );
+      } else {
+        return console.log("Don't know how to open URI: " + report.reqStreet);
+      }
+    });
+  };
 
   return (
-    <SafeArea>
+    <SafeArea style={{ flex: 1, justifyContent: 'center' }}>
       <ScrollView>
-        <ReportsInfoCard />
-        <List.Accordion
-          title=""
-          left={(props) => <List.Icon {...props} icon="food-croissant" />}
-          expanded={breakfastExpanded}
-          onPress={() => setBreakfastExpanded(!breakfastExpanded)}>
-          <List.Item title=" " />
+        <ReportsInfoCard report={report} />
+        <Spacer position="left" size="large">
           <Divider />
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title=" " />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          title=""
-          left={(props) => <List.Icon {...props} icon="hamburger" />}
-          expanded={lunchExpanded}
-          onPress={() => setLunchExpanded(!lunchExpanded)}>
-          <List.Item title="" />
-          <Divider />
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title=" " />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          title=""
-          left={(props) => <List.Icon {...props} icon="glass-cocktail" />}
-          expanded={dinnerExpanded}
-          onPress={() => setDinnerExpanded(!dinnerExpanded)}>
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title=" " />
-        </List.Accordion>
-        <Divider />
-        <List.Accordion
-          title=""
-          left={(props) => <List.Icon {...props} icon="coffee" />}
-          expanded={drinksExpanded}
-          onPress={() => setDrinksExpanded(!drinksExpanded)}>
-          <List.Item title="" />
-          <Divider />
-          <List.Item title="" />
-          <Divider />
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title=" Grey" />
-          <Divider />
-          <List.Item title=" " />
-          <Divider />
-          <List.Item title="" />
-        </List.Accordion>
+          <View style={{}}>
+            <Text>write a comment</Text>
+            <Input multiline style={{ width: 50 }} />
+            <TouchableOpacity style={styles.uploadButton}>
+              <Text>Send Comment</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Spacer position="left" size="large">
+            <Divider />
+            <View style={{ flexDirection: 'culumn', alignItems: 'center' }}>
+              <Text style={{ fontSize: 16, margin: 10 }}>
+                {report.reqStreet},{report?.reStreetNum}
+              </Text>
+              <Text style={{ fontSize: 16 }}>Tel Aviv</Text>
+            </View>
+            <View
+              style={{
+                marginTop: 40,
+                width: '80%',
+                justifyContent: 'space-between',
+                alignSelf: 'center',
+                flexDirection: 'row',
+              }}>
+              <TouchableOpacity onPress={handleWaze} style={styles.navButton}>
+                <MapIcon source={require('../../../assets/icon-waze.png')} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleGoogle} style={styles.navButton}>
+                <MapIcon source={require('../../../assets/Google_Maps_icon.png')} />
+              </TouchableOpacity>
+            </View>
+          </Spacer>
+        </Spacer>
       </ScrollView>
-      <Spacer position="bottom" size="large">
-        <OrderButton
-          mode="contained"
-          //   onPress={() => {
-          //     addToCart({ item: 'special', price: 1299 }, restaurant);
-          //     navigation.navigate('Checkout');
-          //   }}
-        ></OrderButton>
-      </Spacer>
     </SafeArea>
   );
 };
+
+const styles = StyleSheet.create({
+  navButton: {
+    borderRadius: 16,
+    alignSelf: 'center',
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+  },
+  uploadButton: {
+    borderRadius: 16,
+    alignSelf: 'center',
+    elevation: 4,
+    margin: 10,
+    padding: 10,
+    backgroundColor: theme.colors.ui.success,
+  },
+});
 
 export default ReportDetailScreen;

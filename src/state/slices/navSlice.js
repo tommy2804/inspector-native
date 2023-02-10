@@ -6,6 +6,7 @@ const initialState = {
   destination: { latitude: '', longitude: '', Address: {} },
   travelTime: '',
   transportMode: '',
+  current: { latitude: '', longitude: '' },
 };
 
 export const navSlice = createSlice({
@@ -32,13 +33,21 @@ export const navSlice = createSlice({
     setTransportMode: (state, action) => {
       state.transportMode = action.payload;
     },
+    setCurrent: (state, action) => {
+      state.current = {
+        latitude: action.payload.latitude,
+        longitude: action.payload.longitude,
+      };
+    },
   },
 });
 
-export const { setOrigin, setDestination, setTravelTime, setTransportMode } = navSlice.actions;
+export const { setOrigin, setDestination, setTravelTime, setTransportMode, setCurrent } =
+  navSlice.actions;
 export const selectOrigin = (state) => state.nav.origin;
 export const selectDestination = (state) => state.nav.destination;
 export const selectTravelTime = (state) => state.nav.travelTime;
 export const selectTravelMode = (state) => state.nav.transportMode;
+export const selectCurrent = (state) => state.nav.current;
 
 export default navSlice.reducer;

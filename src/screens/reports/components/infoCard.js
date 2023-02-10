@@ -1,6 +1,5 @@
 import React from 'react';
 import { View } from 'react-native';
-import { CustomText as Text } from '../../../components/styles/customText';
 import {
   RestaurantCard,
   RestaurantCardCover,
@@ -11,29 +10,29 @@ import {
   Icon,
 } from './reportsStyle';
 import { Badge } from 'react-native-paper';
+import { Text } from 'react-native-elements';
 import brokenLight from '../../../../assets/brokenLight.jpeg';
+import { useNavigation } from '@react-navigation/native';
 
-export const ReportsInfoCard = ({ reports = {} }) => {
-  const {
-    name = 'Broken Light',
-    photos = [brokenLight],
-    address = '100 some random street',
-  } = reports;
-  console.log(reports);
+export const ReportsInfoCard = ({ report }) => {
+  const navigaiton = useNavigation();
+
   return (
-    <RestaurantCard elevation={2}>
+    <RestaurantCard elevation={2} onPress={() => navigaiton.navigate('report', { report: report })}>
       <View>
-        <RestaurantCardCover key={name} source={photos[0]} />
+        {report?.reqPhoto && (
+          <RestaurantCardCover key={report._id} source={{ uri: report.reqPhoto }} />
+        )}
       </View>
       <Info>
-        <Text variant="label">{name}</Text>
+        <Text variant="label">{report.reqTitle}</Text>
         <Section>
           <OperationStatus>
-            <Text variant="error">urgency: High </Text>
-            <Badge size={14} />
+            <Text variant="error">urgency: {report.urgency}</Text>
+            <Badge size={14} style={{ backgroundColor: report.urgency >= 7 ? 'red' : 'yellow' }} />
           </OperationStatus>
         </Section>
-        <Address>{address}</Address>
+        <Address>{report.reqDescription}</Address>
       </Info>
     </RestaurantCard>
   );

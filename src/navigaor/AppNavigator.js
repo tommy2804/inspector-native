@@ -2,12 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { colors } from '../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
 import MapScreen from '../screens/MapScreen';
-import ReportDetailScreen from '../screens/reports/ReportDetailScreen';
-import ReportScreen from '../screens/reports/reportsScreen';
-import { LoginScreen } from '../screens/Account/SignInScreen';
-import { AccountScreen } from '../screens/Account/Account';
 import HomeScreen from '../screens/HomeScreen';
 import { AccountNavigator } from './AccountNavigator';
+import { ReportNavigator } from './ReportsNavigation';
+import { MapNavigator } from './mapNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,14 +28,14 @@ export const AppNavigator = () => (
         tabBarIcon: ({ color, size }) => <Ionicons name="shield" size={size} color={color} />,
       }}
       name="Reports"
-      component={ReportScreen}
+      component={ReportNavigator}
     />
     <Tab.Screen
       options={{
         tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
       }}
       name="Map"
-      component={MapScreen}
+      component={MapNavigator}
     />
     <Tab.Screen
       options={{

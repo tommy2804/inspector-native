@@ -15,7 +15,7 @@ export const RestaurantCardCover = styled(Card.Cover)`
 `;
 
 export const Address = styled(Text)`
-  font-size: ${theme.fontSizes.caption};
+  font-size: 16px;
 `;
 
 export const Info = styled(View)`
@@ -35,4 +35,8 @@ export const OperationStatus = styled(View)`
 export const Icon = styled(Image)`
   width: 15px;
   height: 15px;
+`;
+export const MapIcon = styled(Image)`
+  width: 70px;
+  height: 70px;
 `;

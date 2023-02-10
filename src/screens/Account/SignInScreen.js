@@ -34,7 +34,7 @@ export const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigation = useNavigation();
-  const { setItem, removeItem } = useAsyncStorage('User');
+  const { setItem, removeItem } = useAsyncStorage('Inspector');
 
   const writeItemToStorage = async (newValue) => {
     await setItem(newValue);
@@ -45,33 +45,16 @@ export const LoginScreen = () => {
     const res = await login({ email, password });
 
     if (res.status === 201) {
+      console.log(res.data);
       try {
         const jsonValue = JSON.stringify(res.data);
         writeItemToStorage(jsonValue);
-        navigation.navigate('HomeScreen');
+        navigation.navigate('Home');
       } catch (e) {
         console.error('not stored');
         // saving error
       }
     }
-  };
-  const OnForgotPasswordPress = () => {
-    console.warn('forgotPassword');
-  };
-  const OnSignInFacebook = () => {
-    console.warn('signInFacebook');
-  };
-
-  const OnSignInApple = () => {
-    console.warn('signInApple');
-  };
-
-  const OnSignInGoogle = () => {
-    console.warn('signInGoogle');
-  };
-  const onSignUp = () => {
-    // const res = register({ email, password });
-    console.warn('signUp');
   };
 
   return (
@@ -104,11 +87,7 @@ export const LoginScreen = () => {
         )}
         <Spacer size="large">
           {!isLoading ? (
-            <AuthButton
-              icon="lock-open-outline"
-              mode="contained"
-              // onPress={() => onLogin(email, password)}
-            >
+            <AuthButton icon="lock-open-outline" mode="contained" onPress={onSignInPress}>
               Login
             </AuthButton>
           ) : (

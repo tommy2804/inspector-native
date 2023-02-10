@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  selectCurrent,
   selectDestination,
   selectTravelMode,
   selectTravelTime,
@@ -15,16 +16,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { selectReports } from '../../state/slices/reportSlice';
 import { Search } from './search';
 import { MapCallout } from './mapOut';
+import { useNavigation } from '@react-navigation/native';
 
 const Map = () => {
   const origin = useCurrentLocation();
   const destination = useSelector(selectDestination);
   const transportMode = useSelector(selectTravelMode);
-  const duration = useSelector(selectTravelTime);
   const reports = useSelector(selectReports);
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const { width, height } = Dimensions.get('window');
+  const [latDelta, setLatDelta] = useState(0);
+  const { latitude, longitude } = useSelector(selectCurrent);
+  const navigate = useNavigation();
+  console.log(latitude, longitude);
 
   const convertMinToHours = (min) => {
     const hours = Math.floor(min / 60);
@@ -40,10 +45,10 @@ const Map = () => {
     if (origin && reports?.length > 0) {
       mapRef.current?.fitToSuppliedMarkers(['origin', 'report'], {
         edgePadding: {
-          top: 120,
-          left: 120,
-          right: 120,
-          bottom: 120,
+          top: 50,
+          left: 50,
+          right: 50,
+          bottom: 50,
         },
       });
     }
@@ -59,10 +64,20 @@ const Map = () => {
         ref={mapRef}
         style={{ width: '100%', height: '100%' }}
         mapType="standard"
+        onMapReady={() =>
+          mapRef.current.fitToSuppliedMarkers(['origin', 'report'], {
+            edgePadding: {
+              top: 100,
+              left: 100,
+              right: 100,
+              bottom: 100,
+            },
+          })
+        }
         initialRegion={{
-          latitude: origin?.latitude,
-          longitude: origin?.longitude,
-          latitudeDelta: 0.09,
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: latDelta,
           longitudeDelta: 0.04,
         }}>
         {origin && destination && (
@@ -105,12 +120,9 @@ const Map = () => {
               longitude: origin?.longitude,
             }}
             title="Your Location"
-            // description={`${origin?.Address.city}, ${origin?.Address?.country}, ${origin?.Address?.street}`}
+            description={`${origin?.Address.city}, ${origin?.Address?.country}, ${origin?.Address?.street}`}
             identifier="origin">
             <MaterialCommunityIcons name="map-marker-radius-outline" size={32} color="black" />
-            <Callout>
-              <MapCallout />
-            </Callout>
           </Marker>
         )}
         {destination?.longitude && (
@@ -125,18 +137,20 @@ const Map = () => {
             <MaterialCommunityIcons name="map-marker-radius-outline" size={32} color="black" />
           </Marker>
         )}
-        {/* {reports.map((report) => (
-        <Marker
-          coordinate={{
-            latitude: report?.location?.lat,
-            longitude: report?.location?.lng,
-          }}
-          identifier="report"
-          title={report.reqTitle}
-          description={report.reqDescription}>
-          <MaterialCommunityIcons name="map-marker" size={22} color="black" />
-        </Marker>
-      ))} */}
+        {reports.map((report) => (
+          <Marker
+            coordinate={{
+              latitude: report?.location?.lat,
+              longitude: report?.location?.lng,
+            }}
+            title={report.reqTitle}
+            identifier="report"
+            description={report.reqDescription}>
+            <Callout onPress={() => navigate.navigate('report', { report })}>
+              <MapCallout report={report} />
+            </Callout>
+          </Marker>
+        ))}
       </MapView>
     </>
   );

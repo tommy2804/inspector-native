@@ -24,14 +24,15 @@ const Item = styled(View)`
 
 const isAndroid = Platform.OS === 'android';
 
-export const ReportInfo = ({ report = brokenLight, isMap }) => {
+export const ReportInfo = ({ report, isMap }) => {
+  // console.log(report);
   const CustomImage = isAndroid && isMap ? AndroidVied : CompactImage;
 
   return (
     <Item>
-      <CustomImage source={report} />
+      {report?.reqPhoto && <CustomImage source={{ uri: report?.reqPhoto }} />}
       <Text center variant="caption">
-        a broken light in the street!!!!
+        {report?.reqTitle}
       </Text>
     </Item>
   );

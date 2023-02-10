@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import NavOptions from '../components/NavOptions';
@@ -16,24 +17,22 @@ import { useNavigation } from '@react-navigation/native';
 import NavFavorites from '../components/NavFavorites';
 import Logo from '../../assets/our-voice-logo.png';
 import { useCurrentLocation } from '../hooks/useCurrentLocation';
-import { Ionicons } from '@expo/vector-icons';
 import { CustomButtonSheet } from '../components/buttonSheet';
+import { getInspectorsRequests } from '../api';
+import { useQuery } from 'react-query';
+import { useStorageData } from '../hooks/fetchAsyncStorage';
+import { addReports } from '../state/slices/reportSlice';
+import LottieView from 'lottie-react-native';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
   const { height } = useWindowDimensions();
   const location = useCurrentLocation();
+  const user = useStorageData();
 
   return (
     <SafeAreaView style={{ height, backgroundColor: 'white' }}>
       <View style={tw`p-5`}>
         <Image style={{ width: 200, height: 100, resizeMode: 'contain' }} source={Logo} />
-        <View style={tw`absolute top-3 right-5 z-50 p-3 rounded-full `}>
-          <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-            <Ionicons name="person-circle-outline" size={40} color="black" />
-          </TouchableOpacity>
-        </View>
       </View>
       {!location?.latitude && (
         <GooglePlacesAutocomplete

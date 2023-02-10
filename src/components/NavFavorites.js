@@ -2,63 +2,16 @@ import { FlatList, StyleSheet, Text, View, TouchableOpacity, Dimensions } from '
 import React, { useState, useEffect } from 'react';
 import { Icon } from 'react-native-elements';
 import tw from 'tailwind-react-native-classnames';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { getInspectorsRequests } from '../api';
-import { Badge, ActivityIndicator, Colors } from 'react-native-paper';
+import { Badge, Colors } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { addReports, setReport } from '../state/slices/reportSlice';
-import styled from 'styled-components/native';
+import { addReports, setReport, selectReports } from '../state/slices/reportSlice';
+import { setCurrent } from '../state/slices/navSlice';
+import { useSelector } from 'react-redux';
 
 const NavFavorites = ({ size = '50%' }) => {
-  const [newRequest, setNewRequest] = useState({});
-  const [allRequsts, setAllRequests] = useState([]);
   const { width } = Dimensions.get('window');
+  const reports = useSelector(selectReports);
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
-  const id = '63dbbe5b075ae8317bf3aa47';
-
-  const {
-    data: inspectorsRequests,
-    isLoading,
-    isError,
-  } = useQuery('inspectorsRequests', () => getInspectorsRequests(id));
-
-  const LoadingContainer = styled(View)`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  `;
-
-  const Loading = styled(ActivityIndicator)`
-    margin-left: -25px;
-  `;
-
-  useEffect(() => {
-    if (inspectorsRequests) {
-      setAllRequests(inspectorsRequests.data);
-      dispatch(setReport(newRequest));
-      dispatch(addReports(allRequsts));
-    }
-  }, [inspectorsRequests]);
-
-  if (isError)
-    return (
-      <Text>an error accured while searching your reports please reset the app or call help</Text>
-    );
-
-  if (isLoading)
-    return (
-      <LoadingContainer>
-        <Loading size={50} animating={true} color={Colors.blue300} />
-      </LoadingContainer>
-    );
-
-  // const updateRequestMutation = useMutation(updateRequest, {
-  //   onSuccess: () => {
-  //     // invalidate and refetch
-  //     queryClient.invalidateQueries('inspectorsRequests');
-  //   },
-  // });
 
   return (
     <View
@@ -68,7 +21,7 @@ const NavFavorites = ({ size = '50%' }) => {
         height: size,
       }}>
       <FlatList
-        data={inspectorsRequests.data}
+        data={reports}
         keyExtractor={(item) => item._id}
         ItemSeparatorComponent={() => <View style={tw`border-t border-gray-200`} />}
         renderItem={({
@@ -81,29 +34,13 @@ const NavFavorites = ({ size = '50%' }) => {
             reqTitle,
             reqDescription,
             urgency,
-            reqNumber,
-            ofUser,
-            isDone,
-            inspectorComment,
-            _id,
           },
           item,
         }) => (
           <TouchableOpacity
             style={tw`flex-row p-2`}
             onPress={() =>
-              setNewRequest({
-                id: _id,
-                reportNum: reqNumber,
-                urgency,
-                userReported: ofUser,
-                title: reqTitle,
-                description: reqDescription,
-                isDone,
-                image: reqPhoto,
-                location,
-                comment: inspectorComment,
-              })
+              dispatch(setCurrent({ latitude: location?.lat, longitude: location?.lng }))
             }>
             <View style={{ position: 'absolute', top: 5, left: width / 1.2 }}>
               <Badge
