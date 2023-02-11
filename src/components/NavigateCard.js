@@ -18,7 +18,7 @@ const NavigateCard = () => {
   return (
     <SafeAreaView style={tw`bg-white flex-1`}>
       <View style={tw` border-gray-200 flex-shrink `}>
-        <View style={{ flexDirection: 'row', display: 'flex' }}>
+        {/* <View style={{ flexDirection: 'row', display: 'flex' }}>
           <Button
             onPress={() => navigation.navigate('HomeScreen')}
             icon="reply-all"
@@ -35,7 +35,7 @@ const NavigateCard = () => {
             onPress={() => navigation.navigate('OptionsCard')}>
             Forwards
           </Button>
-        </View>
+        </View> */}
         <NavFavorites size={'70%'} />
       </View>
     </SafeAreaView>

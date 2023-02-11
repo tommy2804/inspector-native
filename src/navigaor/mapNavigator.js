@@ -7,7 +7,19 @@ const Stack = createNativeStackNavigator();
 
 export const MapNavigator = () => (
   <Stack.Navigator headerMode="none">
-    <Stack.Screen name="Map" component={MapScreen} />
-    <Stack.Screen name="reportDetailed" component={ReportDetailScreen} />
+    <Stack.Screen
+      options={{
+        headerShown: false,
+      }}
+      name="Map"
+      component={MapScreen}
+    />
+    <Stack.Screen
+      options={{
+        headerShown: false,
+      }}
+      name="reportDetailed"
+      component={ReportDetailScreen}
+    />
   </Stack.Navigator>
 );

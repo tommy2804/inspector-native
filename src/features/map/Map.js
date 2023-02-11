@@ -27,9 +27,8 @@ const Map = () => {
   const dispatch = useDispatch();
   const { width, height } = Dimensions.get('window');
   const [latDelta, setLatDelta] = useState(0);
-  const { latitude, longitude } = useSelector(selectCurrent);
+  const marker = useSelector(selectCurrent);
   const navigate = useNavigation();
-  console.log(latitude, longitude);
 
   const convertMinToHours = (min) => {
     const hours = Math.floor(min / 60);
@@ -40,22 +39,39 @@ const Map = () => {
       )
     );
   };
-
-  const centerMap = useCallback(() => {
-    if (origin && reports?.length > 0) {
-      mapRef.current?.fitToSuppliedMarkers(['origin', 'report'], {
-        edgePadding: {
-          top: 50,
-          left: 50,
-          right: 50,
-          bottom: 50,
-        },
-      });
+  // a use effect to set the map to the current latitute and longitude
+  mapRef.current?.animateToRegion(
+    {
+      latitude: marker?.latitude,
+      longitude: marker?.longitude,
+      latitudeDelta: latDelta / 2,
+      longitudeDelta: 0.02,
+    },
+    500,
+    {
+      edgePadding: {
+        top: 150,
+        left: 150,
+        right: 150,
+        bottom: 150,
+      },
     }
-  }, [origin, destination]);
-  useEffect(() => {
-    centerMap();
-  }, [centerMap]);
+  );
+  // const centerMap = useCallback(() => {
+  //   if (origin && reports?.length > 0) {
+  //     mapRef.current?.fitToSuppliedMarkers(['origin', 'report'], {
+  //       edgePadding: {
+  //         top: 150,
+  //         left: 150,
+  //         right: 150,
+  //         bottom: 150,
+  //       },
+  //     });
+  //   }
+  // }, [origin, destination]);
+  // useEffect(() => {
+  //   centerMap();
+  // }, [centerMap]);
 
   return (
     <>
@@ -64,21 +80,22 @@ const Map = () => {
         ref={mapRef}
         style={{ width: '100%', height: '100%' }}
         mapType="standard"
-        onMapReady={() =>
-          mapRef.current.fitToSuppliedMarkers(['origin', 'report'], {
-            edgePadding: {
-              top: 100,
-              left: 100,
-              right: 100,
-              bottom: 100,
-            },
-          })
-        }
+        zoomEnabled={true}
+        // onMapReady={() =>
+        //   mapRef.current.fitToSuppliedMarkers(['origin', 'report'], {
+        //     edgePadding: {
+        //       top: 100,
+        //       left: 100,
+        //       right: 100,
+        //       bottom: 100,
+        //     },
+        //   })
+        // }
         initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: latDelta,
-          longitudeDelta: 0.04,
+          latitude: marker?.latitude,
+          longitude: marker?.longitude,
+          latitudeDelta: latDelta / 2,
+          longitudeDelta: 0.02,
         }}>
         {origin && destination && (
           <MapViewDirections
@@ -137,19 +154,28 @@ const Map = () => {
             <MaterialCommunityIcons name="map-marker-radius-outline" size={32} color="black" />
           </Marker>
         )}
+
         {reports.map((report) => (
-          <Marker
-            coordinate={{
-              latitude: report?.location?.lat,
-              longitude: report?.location?.lng,
-            }}
-            title={report.reqTitle}
-            identifier="report"
-            description={report.reqDescription}>
-            <Callout onPress={() => navigate.navigate('report', { report })}>
-              <MapCallout report={report} />
-            </Callout>
-          </Marker>
+          <>
+            <Marker coordinate={marker}>
+              <Callout onPress={() => navigate.navigate('reportDetailed', { report })}>
+                <MapCallout report={report} />
+              </Callout>
+            </Marker>
+
+            <Marker
+              coordinate={{
+                latitude: report?.location?.lat,
+                longitude: report?.location?.lng,
+              }}
+              title={report.reqTitle}
+              identifier="report"
+              description={report.reqDescription}>
+              <Callout onPress={() => navigate.navigate('reportDetailed', { report })}>
+                <MapCallout report={report} />
+              </Callout>
+            </Marker>
+          </>
         ))}
       </MapView>
     </>

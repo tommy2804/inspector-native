@@ -33,6 +33,7 @@ export const ReportsInfoCard = ({ report }) => {
           </OperationStatus>
         </Section>
         <Address>{report.reqDescription}</Address>
+        <Text>{report?.inspectorComment}</Text>
       </Info>
     </RestaurantCard>
   );

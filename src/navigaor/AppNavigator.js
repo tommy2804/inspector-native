@@ -18,6 +18,7 @@ export const AppNavigator = () => (
     }}>
     <Tab.Screen
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
       }}
       name="Home"
@@ -25,6 +26,7 @@ export const AppNavigator = () => (
     />
     <Tab.Screen
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => <Ionicons name="shield" size={size} color={color} />,
       }}
       name="Reports"
@@ -32,6 +34,7 @@ export const AppNavigator = () => (
     />
     <Tab.Screen
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => <Ionicons name="map" size={size} color={color} />,
       }}
       name="Map"
@@ -39,6 +42,7 @@ export const AppNavigator = () => (
     />
     <Tab.Screen
       options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
       }}
       name="Settings"
