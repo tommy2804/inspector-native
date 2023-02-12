@@ -16,14 +16,14 @@ export const AppNavigator = () => (
       activeTintColor: colors.brand.primary,
       inactiveTintColor: colors.brand.muted,
     }}>
-    <Tab.Screen
+    {/* <Tab.Screen
       options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
       }}
       name="Home"
       component={HomeScreen}
-    />
+    /> */}
     <Tab.Screen
       options={{
         headerShown: false,

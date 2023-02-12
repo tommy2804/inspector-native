@@ -1,28 +1,14 @@
-import {
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { StyleSheet, useWindowDimensions, View, SafeAreaView, Image } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import NavOptions from '../components/NavOptions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_APIKEY } from '@env';
-import { useDispatch } from 'react-redux';
 import { setDestination, setOrigin } from '../state/slices/navSlice';
-import { useNavigation } from '@react-navigation/native';
 import NavFavorites from '../components/NavFavorites';
-import Logo from '../../assets/our-voice-logo.png';
+import Logo from '../../assets/images/our-voice-logo.png';
 import { useCurrentLocation } from '../hooks/useCurrentLocation';
 import { CustomButtonSheet } from '../components/buttonSheet';
-import { getInspectorsRequests } from '../api';
-import { useQuery } from 'react-query';
 import { useStorageData } from '../hooks/fetchAsyncStorage';
-import { addReports } from '../state/slices/reportSlice';
-import LottieView from 'lottie-react-native';
 
 const HomeScreen = () => {
   const { height } = useWindowDimensions();

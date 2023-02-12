@@ -15,10 +15,10 @@ import { Icon } from 'react-native-elements';
 import tw from 'tailwind-react-native-classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import bus from '../../assets/bus.jpeg';
-import walk from '../../assets/walk.png';
-import car from '../../assets/Car.webp';
-import bycicle from '../../assets/bycicle.png';
+import bus from '../../assets/images/bus.jpeg';
+import walk from '../../assets/images/walk.png';
+import car from '../../assets/images/Car.webp';
+import bycicle from '../../assets/images/bycicle.png';
 
 const transport = [
   {

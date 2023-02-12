@@ -11,11 +11,11 @@ import {
 } from './reportsStyle';
 import { Badge } from 'react-native-paper';
 import { Text } from 'react-native-elements';
-import brokenLight from '../../../../assets/brokenLight.jpeg';
 import { useNavigation } from '@react-navigation/native';
 
 export const ReportsInfoCard = ({ report }) => {
   const navigaiton = useNavigation();
+  console.log(report);
 
   return (
     <RestaurantCard elevation={2} onPress={() => navigaiton.navigate('report', { report: report })}>
@@ -33,7 +33,7 @@ export const ReportsInfoCard = ({ report }) => {
           </OperationStatus>
         </Section>
         <Address>{report.reqDescription}</Address>
-        <Text>{report?.inspectorComment}</Text>
+        <Address>{report?.inspectorComment}</Address>
       </Info>
     </RestaurantCard>
   );

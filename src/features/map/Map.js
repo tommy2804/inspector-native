@@ -5,7 +5,6 @@ import {
   selectCurrent,
   selectDestination,
   selectTravelMode,
-  selectTravelTime,
   setTravelTime,
 } from '../../state/slices/navSlice';
 import MapView, { Marker, Callout } from 'react-native-maps';
@@ -39,7 +38,6 @@ const Map = () => {
       )
     );
   };
-  // a use effect to set the map to the current latitute and longitude
   mapRef.current?.animateToRegion(
     {
       latitude: marker?.latitude,
@@ -50,28 +48,28 @@ const Map = () => {
     500,
     {
       edgePadding: {
-        top: 150,
-        left: 150,
-        right: 150,
-        bottom: 150,
+        top: 50,
+        left: 50,
+        right: 50,
+        bottom: 50,
       },
     }
   );
-  // const centerMap = useCallback(() => {
-  //   if (origin && reports?.length > 0) {
-  //     mapRef.current?.fitToSuppliedMarkers(['origin', 'report'], {
-  //       edgePadding: {
-  //         top: 150,
-  //         left: 150,
-  //         right: 150,
-  //         bottom: 150,
-  //       },
-  //     });
-  //   }
-  // }, [origin, destination]);
-  // useEffect(() => {
-  //   centerMap();
-  // }, [centerMap]);
+  const centerMap = useCallback(() => {
+    if (origin && reports?.length > 0) {
+      mapRef.current?.fitToSuppliedMarkers(['origin'], {
+        edgePadding: {
+          top: 150,
+          left: 150,
+          right: 150,
+          bottom: 150,
+        },
+      });
+    }
+  }, [origin, destination]);
+  useEffect(() => {
+    centerMap();
+  }, [centerMap]);
 
   return (
     <>
@@ -81,16 +79,6 @@ const Map = () => {
         style={{ width: '100%', height: '100%' }}
         mapType="standard"
         zoomEnabled={true}
-        // onMapReady={() =>
-        //   mapRef.current.fitToSuppliedMarkers(['origin', 'report'], {
-        //     edgePadding: {
-        //       top: 100,
-        //       left: 100,
-        //       right: 100,
-        //       bottom: 100,
-        //     },
-        //   })
-        // }
         initialRegion={{
           latitude: marker?.latitude,
           longitude: marker?.longitude,

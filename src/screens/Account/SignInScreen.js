@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   ScrollView,
 } from 'react-native';
-import Logo from '../../../assets/our-voice-logo.png';
+import Logo from '../../../assets/images/our-voice-logo.png';
 import CustomInput from '../../components/auth/CustomInput';
 import CustomButton from '../../components/auth/CustomButton';
 import React, { useState } from 'react';

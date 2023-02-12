@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, TouchableOpacity, RefreshControl, ScrollView, Button } from 'react-native';
 import { Spacer } from '../../components/styles/spacer';
-import { CustomText as Text } from '../../components/styles/customText';
 import { SafeArea } from '../../components/styles/safeArea';
 import { Search } from './components/search';
 import { ReportsList } from './components/stylesList';
@@ -18,10 +17,22 @@ import { useNavigation } from '@react-navigation/native';
 
 const ReportsScreen = () => {
   const reports = useSelector(selectReports);
+  const [reportData, setReportData] = useState([]);
   const dispatch = useDispatch();
   const user = useStorageData();
   const id = '63dbbe1d075ae8317bf3aa42';
   const navigation = useNavigation();
+
+  const searchReport = (value) => {
+    if (!value.length) return setReportData(reports);
+    const filteredReports = reports.filter((report) => {
+      return report?.reqTitle.toLowerCase().includes(value.toLowerCase());
+    });
+    if (filteredReports.length) setReportData(filteredReports);
+    else {
+      setReportData(reports);
+    }
+  };
 
   const getReports = async () => {
     try {
@@ -29,6 +40,7 @@ const ReportsScreen = () => {
       // console.log(res.data);
 
       dispatch(addReports(res.data));
+      setReportData(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +48,7 @@ const ReportsScreen = () => {
   // console.log(reports);
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = React.useCallback(async () => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
     if (reports.length <= 0) {
       try {
@@ -52,46 +64,14 @@ const ReportsScreen = () => {
     getReports();
   }, []);
 
-  // const user = useStorageData();
-  // console.log(user);
-
-  // const {
-  //   data: inspectorsRequests,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery('inspectorsRequests', () => getInspectorsRequests(user?.id));
-  // // console.log(inspectorsRequests?.data);
-  // if (inspectorsRequests?.status === 200) {
-  //   dispatch(addReports(inspectorsRequests.data));
-  // } else {
-  //   return (
-  //     <ScrollView
-  //       style={{ flex: 1 }}
-  //       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-  //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  //         <LottieView
-  //           key="animation"
-  //           style={{ width: 150, height: 200 }}
-  //           resizeMode="cover"
-  //           autoPlay
-  //           loop
-  //           source={require('../../../assets/animation/car-loader.json')}
-  //           // source={require('../../../../assets/animations/watermelon-lottie.json')}
-  //         />
-  //       </View>
-  //     </ScrollView>
-  //   );
-  // }
-
   return (
     <SafeArea>
       <ScrollView
         style={{ flex: 1 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <Search />
+        <Search search={searchReport} />
         <ReportsList
-          data={reports}
+          data={reportData}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity onPress={() => console.log(item)}>

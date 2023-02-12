@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { transportMode } from '../types';
 
 const initialState = {
   origin: { latitude: '', longitude: '', Address: {} },

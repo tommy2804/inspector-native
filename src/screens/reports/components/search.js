@@ -9,17 +9,18 @@ const SearchContainer = styled(View)`
   background-color: ${theme.colors.brand.primary};
 `;
 
-export const Search = () => {
+export const Search = ({ search }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
+    search(searchKeyword);
     setSearchKeyword(searchKeyword);
   }, [searchKeyword]);
 
   return (
     <SearchContainer>
       <Searchbar
-        placeholder="Search for a location"
+        placeholder="Search By Title"
         value={searchKeyword}
         // onIconPress={searchKeyword}
         // onSubmitEditing={() => Search(searchKeyword)}

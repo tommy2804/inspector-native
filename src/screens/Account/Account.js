@@ -1,6 +1,5 @@
 import React from 'react';
-// import LottieView from 'lottie-react-native';
-// import { LottieAnimationWrapper } from '../../../components/LottieAnimationWrapper/LottieAnimationWrapper';
+import LottieView from 'lottie-react-native';
 import {
   AccountBackground,
   AccountCover,
@@ -17,15 +16,15 @@ export const AccountScreen = () => {
   return (
     <AccountBackground>
       <AccountCover />
-      {/* <LottieAnimationWrapper> */}
-      {/* <LottieView
-          key="animation"
-          resizeMode="cover"
-          autoPlay
-          loop
-          source={require('../../../../assets/animations/watermelon-lottie.json')}
-        /> */}
-      {/* </LottieAnimationWrapper> */}
+
+      <LottieView
+        key="animation"
+        resizeMode="cover"
+        autoPlay
+        loop
+        source={require('../../../assets/animation/lookingReports.json')}
+      />
+
       <Title variant="caption">Voice Tel Aviv</Title>
       <AccountContainer>
         <AuthButton

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, TouchableOpacity, View, StyleSheet, Linking, Alert } from 'react-native';
-import { List, Divider, Button, Text, Checkbox } from 'react-native-paper';
+import { Divider, Text, Checkbox } from 'react-native-paper';
 import { SafeArea } from '../../components/styles/safeArea';
 import { Spacer } from '../../components/styles/Text';
 import { theme } from '../../theme';
@@ -12,6 +12,7 @@ import { updateRequest } from '../../api';
 const ReportDetailScreen = ({ route }) => {
   const [checked, setChecked] = useState(false);
   const [comment, setComment] = useState('');
+
   const { report } = route.params;
 
   const submitComment = async () => {
@@ -74,7 +75,7 @@ const ReportDetailScreen = ({ route }) => {
 
             <Spacer position="left" size="large">
               <View style={{ width: 160, borderColor: 'black', flexDirection: 'row' }}>
-                {/* <Icon source={require('../../../assets/icon-comment.png')} /> */}
+                {/* <Icon source={require('../../../assets/images/icon-comment.png')} /> */}
                 <Text style={{ fontSize: 16, margin: 10 }}>did you check the report? ------></Text>
                 <Checkbox
                   status={checked ? 'checked' : 'unchecked'}
@@ -111,11 +112,11 @@ const ReportDetailScreen = ({ route }) => {
                 flexDirection: 'row',
               }}>
               <TouchableOpacity onPress={handleWaze} style={styles.navButton}>
-                <MapIcon source={require('../../../assets/icon-waze.png')} />
+                <MapIcon source={require('../../../assets/images/icon-waze.png')} />
               </TouchableOpacity>
 
               <TouchableOpacity onPress={handleGoogle} style={styles.navButton}>
-                <MapIcon source={require('../../../assets/Google_Maps_icon.png')} />
+                <MapIcon source={require('../../../assets/images/Google_Maps_icon.png')} />
               </TouchableOpacity>
             </View>
           </Spacer>

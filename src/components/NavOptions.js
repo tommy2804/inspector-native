@@ -4,8 +4,8 @@ import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { selectOrigin } from '../state/slices/navSlice';
-import Paper from '../../assets/paper.jpeg';
-import direction from '../../assets/directionLogo.jpeg';
+import Paper from '../../assets/images/paper.jpeg';
+import direction from '../../assets/images/directionLogo.jpeg';
 
 const data = [
   {
