@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "inspector",
+    "name": "inspector&do",
     "slug": "inspector",
+    "description": "inspector&do is a mobile app that allows you to create and manage your own reports. You can use the app to manage your reports and and update when they completed.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/images/app-logo.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splash-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/app-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/app-logo.png"
     }
   }
 }

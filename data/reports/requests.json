@@ -20,7 +20,7 @@
     "reqDescription": "A car is parked in two parking lots at the entrance to the college",
     "reqTitle": "Parking",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -45,7 +45,7 @@
     "reqDescription": "Garbage outside the house",
     "reqTitle": "Garbage",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -70,7 +70,7 @@
     "reqDescription": "The neighbors in apartment 4 make noise after 23:00",
     "reqTitle": "Noise",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -95,7 +95,7 @@
     "reqDescription": "The sewer is flooded with a foul smell and flooding the street",
     "reqTitle": "Sewerage",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null,
     "updatedAt": {
@@ -125,7 +125,7 @@
     "reqDescription": "car parking on 2 places",
     "reqTitle": "Parking",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -150,7 +150,7 @@
     "reqDescription": "A pothole on the road",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -175,7 +175,7 @@
     "reqDescription": "A broken street light",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -200,7 +200,7 @@
     "reqDescription": "A tree blocking the sidewalk",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -225,7 +225,7 @@
     "reqDescription": "A broken street sign",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -250,7 +250,7 @@
     "reqDescription": "A damaged traffic light",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -275,7 +275,7 @@
     "reqDescription": "A broken bench in the park",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -300,7 +300,7 @@
     "reqDescription": "A leaking water pipe",
     "reqTitle": "Sewerage",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -325,7 +325,7 @@
     "reqDescription": "A damaged sidewalk",
     "reqTitle": "A hazard in the street",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null
   },
@@ -348,7 +348,7 @@
     "reqDescription": "A test",
     "reqTitle": "test",
     "inCharge": {
-      "$oid": "63dbbe5b075ae8317bf3aa47"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null,
     "createdAt": {
@@ -377,7 +377,7 @@
     "reqDescription": "test",
     "reqTitle": "test",
     "inCharge": {
-      "$oid": "63dbbe1d075ae8317bf3aa42"
+      "$oid": "63ea48e02a037982d99305b1"
     },
     "inspectorComment": null,
     "createdAt": {

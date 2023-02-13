@@ -8,12 +8,14 @@ import { ReportsInfoCard } from './components/infoCard';
 import { Input } from 'react-native-elements';
 import { Icon, MapIcon } from './components/reportsStyle';
 import { updateRequest } from '../../api';
+import { useNavigation } from '@react-navigation/native';
 
 const ReportDetailScreen = ({ route }) => {
   const [checked, setChecked] = useState(false);
   const [comment, setComment] = useState('');
 
   const { report } = route.params;
+  const navigation = useNavigation();
 
   const submitComment = async () => {
     const formData = {
@@ -24,7 +26,10 @@ const ReportDetailScreen = ({ route }) => {
     if (res.status === 200) {
       Alert.alert('Comment was added, Thank you!');
       setComment('');
-      console.log(res.data);
+      setChecked(false);
+      navigation.navigate('reports');
+
+      // console.log(res.data);
     }
   };
 
@@ -76,18 +81,23 @@ const ReportDetailScreen = ({ route }) => {
             <Spacer position="left" size="large">
               <View style={{ width: 160, borderColor: 'black', flexDirection: 'row' }}>
                 {/* <Icon source={require('../../../assets/images/icon-comment.png')} /> */}
-                <Text style={{ fontSize: 16, margin: 10 }}>did you check the report? ------></Text>
-                <Checkbox
-                  status={checked ? 'checked' : 'unchecked'}
-                  onPress={() => {
-                    setChecked(!checked);
-                  }}
-                  color={theme.colors.ui.primary}
-                />
-                <Text style={{ fontSize: 16, margin: 10 }}>
-                  {'\n'}
-                  {'<------'}
-                </Text>
+                <Text style={{ fontSize: 16, margin: 10 }}>did you check the report?</Text>
+                <View
+                  style={{
+                    borderStyle: 'solid',
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    height: 38,
+                    borderRadius: '50%',
+                  }}>
+                  <Checkbox
+                    status={checked ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
+                    color={theme.colors.ui.primary}
+                  />
+                </View>
               </View>
               <TouchableOpacity onPress={submitComment} style={styles.uploadButton}>
                 <Text>Send Comment</Text>

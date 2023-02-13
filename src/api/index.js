@@ -1,13 +1,12 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const API = axios.create({ baseURL: 'http://10.0.0.16:4001' });
+export const API = axios.create({ baseURL: 'https://server-cityhero.onrender.com' });
 
 API.interceptors.request.use(async (req) => {
   // before all the request so that we can send the token back to middlware so he can check the specific
-  if (await AsyncStorage.getItem('User')) {
-    let jsonValue = await AsyncStorage.getItem('User');
-    jsonValue = JSON.parse(jsonValue);
+  if (await AsyncStorage.getItem('Token')) {
+    let jsonValue = await AsyncStorage.getItem('Token');
     req.headers.Authorization = `Bearer ${jsonValue.token}`;
   }
   return req;

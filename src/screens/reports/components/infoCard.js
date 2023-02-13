@@ -15,7 +15,6 @@ import { useNavigation } from '@react-navigation/native';
 
 export const ReportsInfoCard = ({ report }) => {
   const navigaiton = useNavigation();
-  console.log(report);
 
   return (
     <RestaurantCard elevation={2} onPress={() => navigaiton.navigate('report', { report: report })}>

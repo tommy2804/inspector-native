@@ -20,8 +20,9 @@ import { useNavigation } from '@react-navigation/native';
 const Map = () => {
   const origin = useCurrentLocation();
   const destination = useSelector(selectDestination);
-  const transportMode = useSelector(selectTravelMode);
-  const reports = useSelector(selectReports);
+  // const transportMode = useSelector(selectTravelMode);
+  const reports = useSelector((state) => state.report.reports);
+  console.log('testtt', reports[0]);
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const { width, height } = Dimensions.get('window');
@@ -29,19 +30,19 @@ const Map = () => {
   const marker = useSelector(selectCurrent);
   const navigate = useNavigation();
 
-  const convertMinToHours = (min) => {
-    const hours = Math.floor(min / 60);
-    const minutes = min % 60;
-    dispatch(
-      setTravelTime(
-        hours > 0 ? `${hours} hr ${Math.round(minutes)} min` : `${Math.round(minutes)} min`
-      )
-    );
-  };
+  // const convertMinToHours = (min) => {
+  //   const hours = Math.floor(min / 60);
+  //   const minutes = min % 60;
+  //   dispatch(
+  //     setTravelTime(
+  //       hours > 0 ? `${hours} hr ${Math.round(minutes)} min` : `${Math.round(minutes)} min`
+  //     )
+  //   );
+  // };
   mapRef.current?.animateToRegion(
     {
-      latitude: marker?.latitude,
-      longitude: marker?.longitude,
+      latitude: marker?.latitude || origin?.latitude,
+      longitude: marker?.longitude || origin?.longitude,
       latitudeDelta: latDelta / 2,
       longitudeDelta: 0.02,
     },
@@ -62,11 +63,11 @@ const Map = () => {
           top: 150,
           left: 150,
           right: 150,
-          bottom: 150,
+          bottom: 250,
         },
       });
     }
-  }, [origin, destination]);
+  }, [origin]);
   useEffect(() => {
     centerMap();
   }, [centerMap]);
@@ -85,7 +86,7 @@ const Map = () => {
           latitudeDelta: latDelta / 2,
           longitudeDelta: 0.02,
         }}>
-        {origin && destination && (
+        {origin && destination.latitude && (
           <MapViewDirections
             origin={{ latitude: origin?.latitude, longitude: origin?.longitude }}
             destination={{
@@ -95,16 +96,15 @@ const Map = () => {
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="hotpink"
-            mode={transportMode}
             onStart={(params) => {
               console.log(`Started routing between "${params}" and "${params}"`);
             }}
             onReady={(result) => {
               convertMinToHours(result.duration);
               console.log(`Distance: ${result.distance} km`);
-              console.log(`let waypoints = ${JSON.stringify(result.waypointOrder)}`);
+              console.log(`Duration: ${result.duration} min.`);
 
-              mapRef.current?.fitToCoordinates(result.coordinates, {
+              mapRef.current?.fitToCoordinates(result?.coordinates, {
                 edgePadding: {
                   right: width / 20,
                   bottom: height / 20,
@@ -118,7 +118,7 @@ const Map = () => {
             }}
           />
         )}
-        {origin.longitude && (
+        {origin?.longitude && (
           <Marker
             coordinate={{
               latitude: origin?.latitude,
@@ -171,5 +171,3 @@ const Map = () => {
 };
 
 export default Map;
-
-const styles = StyleSheet.create({});

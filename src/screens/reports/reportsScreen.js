@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, TouchableOpacity, RefreshControl, ScrollView, Button } from 'react-native';
+import { View, TouchableOpacity, RefreshControl, ScrollView, Text } from 'react-native';
 import { Spacer } from '../../components/styles/spacer';
 import { SafeArea } from '../../components/styles/safeArea';
 import { Search } from './components/search';
@@ -9,19 +9,30 @@ import { FadeInView } from '../../components/styles/fadeInView';
 import { selectReports } from '../../state/slices/reportSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { getInspectorsRequests } from '../../api';
-import { useStorageData } from '../../hooks/fetchAsyncStorage';
 import { addReports } from '../../state/slices/reportSlice';
-import LottieView from 'lottie-react-native';
 import { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
 
 const ReportsScreen = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const reports = useSelector(selectReports);
   const [reportData, setReportData] = useState([]);
   const dispatch = useDispatch();
-  const user = useStorageData();
-  const id = '63dbbe1d075ae8317bf3aa42';
-  const navigation = useNavigation();
+  const token = useSelector((state) => state.user.token);
+  const user = useSelector((state) => state.user.user);
+
+  const getReports = async () => {
+    try {
+      const res = await getInspectorsRequests(user?.id);
+      dispatch(addReports(res.data));
+      setReportData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getReports();
+  }, [user]);
 
   const searchReport = (value) => {
     if (!value.length) return setReportData(reports);
@@ -34,20 +45,7 @@ const ReportsScreen = () => {
     }
   };
 
-  const getReports = async () => {
-    try {
-      const res = await getInspectorsRequests(id);
-      // console.log(res.data);
-
-      dispatch(addReports(res.data));
-      setReportData(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   // console.log(reports);
-  const [refreshing, setRefreshing] = useState(false);
-
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     if (reports.length <= 0) {
@@ -60,10 +58,28 @@ const ReportsScreen = () => {
     }
     setRefreshing(false);
   }, []);
-  useEffect(() => {
-    getReports();
-  }, []);
 
+  if (reportData.length < 1) {
+    return (
+      <ScrollView
+        style={{ flex: 1 }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <View style={{ width: '100%', height: '100%', alignItems: 'center' }}>
+          <LottieView
+            key="no-work"
+            resizeMode="cover"
+            autoPlay
+            style={{ width: 400, height: 400, alignSelf: 'center', alignItems: 'center' }}
+            loop
+            source={require('../../../assets/animation/no-work.json')}
+          />
+          <Text style={{ fontSize: '30px' }}>
+            no work for today {'\n'} go rest :{')'}
+          </Text>
+        </View>
+      </ScrollView>
+    );
+  }
   return (
     <SafeArea>
       <ScrollView

@@ -1,21 +1,9 @@
-import {
-  View,
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  useWindowDimensions,
-  ScrollView,
-} from 'react-native';
-import Logo from '../../../assets/images/our-voice-logo.png';
-import CustomInput from '../../components/auth/CustomInput';
-import CustomButton from '../../components/auth/CustomButton';
+import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import tw from 'tailwind-react-native-classnames';
 import { useNavigation } from '@react-navigation/native';
 import { login, register } from '../../api';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import { useStorageData } from '../../hooks/fetchAsyncStorage';
 import {
   AccountBackground,
   AccountCover,
@@ -26,15 +14,20 @@ import {
   ErrorContainer,
 } from './components/accountStyles';
 import { Spacer } from '../../components/styles/spacer';
-import { CustomText as Test } from '../../components/styles/customText';
+import { useCurrentLocation } from '../../hooks/useCurrentLocation';
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '../../state/slices/userSlice';
+import jwtDecode from 'jwt-decode';
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [error, setError] = useState(null);
   const navigation = useNavigation();
-  const { setItem, removeItem } = useAsyncStorage('Inspector');
+  const { setItem } = useAsyncStorage('Token');
+  const { latitude, longitude } = useCurrentLocation();
 
   const writeItemToStorage = async (newValue) => {
     await setItem(newValue);
@@ -42,14 +35,15 @@ export const LoginScreen = () => {
 
   const onSignInPress = async () => {
     console.log(email, password);
-    const res = await login({ email, password });
+    const res = await login({ email, password, location: { lat: latitude, lng: longitude } });
 
     if (res.status === 201) {
       console.log(res.data);
       try {
-        const jsonValue = JSON.stringify(res.data);
-        writeItemToStorage(jsonValue);
-        navigation.navigate('Home');
+        writeItemToStorage(res.data);
+        dispatch(setToken(res.data));
+        dispatch(setUser(jwtDecode(res.data)));
+        navigation.navigate('Reports');
       } catch (e) {
         console.error('not stored');
         // saving error
